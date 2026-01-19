@@ -1517,6 +1517,7 @@ section,
 # Doctors Section
 --------------------------------------------------------------*/
 .doctors .team-member {
+  height: 350px;
   background-color: var(--surface-color);
   overflow: hidden;
   border-radius: 5px;
@@ -1527,6 +1528,8 @@ section,
 .doctors .team-member .member-img {
   position: relative;
   overflow: hidden;
+  object-fit: cover; /* INI KUNCINYA: Gambar akan dipotong otomatis agar memenuhi area tanpa gepeng */
+  object-position: top; /* Fokus pada wajah (bagian atas gambar) */
 }
 
 .doctors .team-member .social {

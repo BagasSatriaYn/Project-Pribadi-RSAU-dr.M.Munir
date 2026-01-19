@@ -1,5 +1,4 @@
 <section id="appointment" class="appointment section light-background">
-
   <div class="container section-title" data-aos="fade-up">
     <h2>Buat Janji Temu</h2>
     <p>Silakan isi formulir di bawah untuk melakukan reservasi pemeriksaan</p>
@@ -7,7 +6,18 @@
 
   <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-    <form action="forms/appointment.php" method="post" role="form" class="php-email-form">
+    {{-- Notifikasi Sukses --}}
+    @if(session('success'))
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    @endif
+
+    {{-- Ubah action ke route Laravel dan hapus class php-email-form --}}
+    <form action="{{ route('appointment.store') }}" method="post" role="form" class="p-4 shadow bg-white rounded">
+      @csrf {{-- Token keamanan wajib Laravel --}}
+      
       <div class="row">
         <div class="col-md-4 form-group">
           <input type="text" name="name" class="form-control" placeholder="Nama Lengkap" required>
@@ -30,14 +40,16 @@
             <option value="Umum">Poli Umum</option>
             <option value="Gigi">Poli Gigi</option>
             <option value="Anak">Poli Anak</option>
+            <option value="Bedah">Poli Bedah</option>
           </select>
         </div>
         <div class="col-md-4 form-group mt-3">
           <select name="doctor" class="form-select" required>
             <option value="">Pilih Dokter</option>
-            <option value="Dokter 1">Dr. Andi</option>
-            <option value="Dokter 2">Dr. Sinta</option>
-            <option value="Dokter 3">Dr. Budi</option>
+            {{-- Mengambil data dokter secara dinamis dari database --}}
+            @foreach($doctors as $doctor)
+              <option value="{{ $doctor->name }}">{{ $doctor->name }} ({{ $doctor->specialist }})</option>
+            @endforeach
           </select>
         </div>
       </div>
@@ -47,10 +59,10 @@
       </div>
 
       <div class="mt-3 text-center">
-        <button type="submit">Kirim Permintaan</button>
+        {{-- Styling tombol agar tetap cantik seperti tema Medicio --}}
+        <button type="submit" style="background: #1977cc; border: 0; padding: 10px 35px; color: #fff; border-radius: 50px; transition: 0.4s;">Kirim Permintaan</button>
       </div>
     </form>
 
   </div>
-
 </section>
